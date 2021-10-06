@@ -1,16 +1,39 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 export default function App() {
-  const [count, setCount] = useState(0);
+  // APIから取得したデータ
+  const [items, setItems] = useState([]);
+  // ローディング状態
+  const [isLoading, setIsLoading] = useState(false);
+  const url = "https://hn.algolia.com/api/v1/search?query=react";
 
   useEffect(() => {
-    console.log(document.getElementById("effectHook").innerText);
-  });
+    const fetchData = async () => {
+      setIsLoading(true);
+
+      const result = await axios.get(url);
+
+      setItems(result.data.hits);
+      setIsLoading(false);
+    };
+
+    fetchData();
+  }, []);
 
   return (
-    <div>
-      <p id="effectHook">You clicked {count} times.</p>
-      <button onClick={() => setCount(count + 1)}>Click</button>
-    </div>
+    <>
+      {isLoading ? (
+        <p>Loading</p>
+      ) : (
+        <ul>
+          {items.map((item) => (
+            <li key={item.objectID}>
+              <a href={item.url}>{item.title}</a>
+            </li>
+          ))}
+        </ul>
+      )}
+    </>
   );
 }
