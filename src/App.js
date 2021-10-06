@@ -1,22 +1,30 @@
 import React, { useState } from "react";
 
 export default function App() {
-  const [vote, setVote] = useState({ kinoko: 0, takenoko: 0 });
+  const [items, setItems] = useState([{ name: "きのこ" }]);
 
-  const voteKinoko = () => {
-    setVote({ ...vote, kinoko: vote.kinoko + 1 });
+  const addItem = () => {
+    const newItem = {
+      name: Math.random() > 0.5 ? "きのこ" : "たけのこ"
+    };
+    setItems([...items, newItem]);
   };
 
-  const voteTakenoko = () => {
-    setVote({ ...vote, takenoko: vote.takenoko + 1 });
+  const deleteItem = (index) => {
+    setItems(items.filter((_, i) => i !== index));
   };
 
   return (
     <>
-      <p>きのこ : {vote.kinoko}</p>
-      <p>たけのこ : {vote.takenoko}</p>
-      <button onClick={voteKinoko}>きのこ</button>
-      <button onClick={voteTakenoko}>たけのこ</button>
+      <button onClick={addItem}>「きのこ」か「たけのこ」かを追加」</button>
+      <ul>
+        {items.map((item, index) => (
+          <li key={index}>
+            {item.name}
+            <button onClick={() => deleteItem(index)}>削除</button>
+          </li>
+        ))}
+      </ul>
     </>
   );
 }
