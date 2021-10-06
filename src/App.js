@@ -4,6 +4,7 @@ export default function App() {
   const [count, setCount] = useState(10);
 
   const decrement = () => {
+    // function
     setCount(count - 1);
   };
 
