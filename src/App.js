@@ -1,58 +1,50 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 
-export default function App() {
-  // APIから取得したデータ
-  const [items, setItems] = useState([]);
-  // input に入力した値
-  const [inputValue, setInputValue] = useState("React");
-  // 外部 APIにリクエストするときに付与するクエリパラメータ
-  const [query, setQuery] = useState(inputValue);
-  // ローディング状態
-  const [isLoading, setIsLoading] = useState(false);
+const LIMIT = 60;
 
-  // 外部APIからデータを取得し、stateを更新する副作用
+// カウントダウンするコンポーネント
+function Timer() {
+  // カウント
+  const [timeLeft, setTimeLeft] = useState(LIMIT);
+
+  // timeLeft をリセット
+  const reset = () => {
+    setTimeLeft(LIMIT);
+  };
+
+  // timeListを更新する
+  const tick = () => {
+    console.log("tick");
+    setTimeLeft((prevTime) => (prevTime === 0 ? LIMIT : prevTime - 1));
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
+    console.log("create timer");
+    const timerId = setInterval(tick, 1000);
 
-      const result = await axios(
-        `https://hn.algolia.com/api/v1/search?query=${query}`
-      );
-
-      setItems(result.data.hits);
-      setIsLoading(false);
+    return () => {
+      console.log("cleanUp Timer");
+      clearInterval(timerId);
     };
-
-    fetchData();
-  }, [query]);
+  }, []);
 
   return (
-    <>
-      <form
-        onSubmit={(event) => {
-          event.preventDefault();
-          setQuery(inputValue);
-        }}
-      >
-        <input
-          type="text"
-          value={inputValue}
-          onChange={(event) => setInputValue(event.target.value)}
-        />
-        <button type="submit">検索</button>
-      </form>
-      {isLoading ? (
-        <p>Loading</p>
-      ) : (
-        <ul>
-          {items.map((item) => (
-            <li key={item.objectID}>
-              <a href={item.url}>{item.title}</a>
-            </li>
-          ))}
-        </ul>
-      )}
-    </>
+    <div>
+      <p>time: {timeLeft} </p>
+      <button onClick={reset}>reset</button>
+    </div>
   );
 }
+function App() {
+  // コンポーネントを読み込むかどうかのフラグ
+  const [visible, setVisible] = useState(true);
+
+  return (
+    <div>
+      <button onClick={() => setVisible(!visible)}>Toggle Timer</button>
+      {visible ? <Timer /> : ""}
+    </div>
+  );
+}
+
+export default App;
