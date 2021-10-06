@@ -1,22 +1,22 @@
 import React, { useState } from "react";
 
 export default function App() {
-  const [count, setCount] = useState(10);
+  const [vote, setVote] = useState({ kinoko: 0, takenoko: 0 });
 
-  const decrement = () => {
-    // function
-    setCount((currentCount) => count - 1);
+  const voteKinoko = () => {
+    setVote({ ...vote, kinoko: vote.kinoko + 1 });
   };
 
-  const increment = () => {
-    setCount((currentCount) => count + 1);
+  const voteTakenoko = () => {
+    setVote({ ...vote, takenoko: vote.takenoko + 1 });
   };
 
   return (
     <>
-      <p>Count : {count}</p>
-      <button onClick={decrement}>-</button>
-      <button onClick={increment}>+</button>
+      <p>きのこ : {vote.kinoko}</p>
+      <p>たけのこ : {vote.takenoko}</p>
+      <button onClick={voteKinoko}>きのこ</button>
+      <button onClick={voteTakenoko}>たけのこ</button>
     </>
   );
 }
