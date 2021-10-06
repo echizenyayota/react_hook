@@ -5,11 +5,11 @@ export default function App() {
 
   const decrement = () => {
     // function
-    setCount(count - 1);
+    setCount((currentCount) => count - 1);
   };
 
   const increment = () => {
-    setCount(count + 1);
+    setCount((currentCount) => count + 1);
   };
 
   return (
