@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 
-// App コンポーネントが再レンダーされるたびに再レンダーされる
-function Child({ count }) {
-  console.log("render child");
-  return <p>Child: {count} </p>;
-}
+const Child = React.memo(({ count }) => {
+  console.log("render Child");
+  return <p>Child: {count}</p>;
+});
 
 export default function App() {
   console.log("render App");
@@ -13,9 +12,9 @@ export default function App() {
 
   return (
     <>
-      <button onClick={() => setCount1(count1 + 1)}>countUp App count</button>
-      <button onClick={() => setCount2(count2 + 1)}>countUp Child count</button>
-      <p>App: {count1}</p>
+      <button onClick={() => setCount1(count1 + 1)}>countup App count</button>
+      <button onClick={() => setCount2(count2 + 1)}>countup Child count</button>
+      <p>App : {count1}</p>
       <Child count={count2} />
     </>
   );
