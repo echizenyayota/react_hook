@@ -1,17 +1,31 @@
-import React, { useState, useCallback } from "react";
+import React, { useState } from "react";
 
 export default function App() {
-  console.log("render App");
+  const [count1, setCount1] = useState(0);
+  const [count2, setCount2] = useState(0);
 
-  const [count, setCount] = useState(0);
-  const handleClick = useCallback(() => {
-    console.log("memolized callback");
-  }, []);
+  // 引数の数値を2倍にして返す
+  // 不要なループを実行しているためかなりの時間がかかる
+  const double = (count) => {
+    let i = 0;
+    while (i < 10000) {
+      i++;
+    }
+    return count * 2;
+  };
+
+  const doubleCount = double(count2);
+
   return (
     <>
-      <p>Counter: {count}</p>
-      <button onClick={() => setCount(count + 1)}>Increment Count</button>
-      <button onClick={handleClick}>logging</button>
+      <h2>Increment Count1</h2>
+      <p>Counter: {count1}</p>
+      <button onClick={() => setCount1(count1 + 1)}>Increment count1</button>
+      <h2>Increment Count2</h2>
+      <p>
+        Counter: {count2}, {doubleCount}
+      </p>
+      <button onClick={() => setCount2(count2 + 1)}>Increment count2</button>
     </>
   );
 }
