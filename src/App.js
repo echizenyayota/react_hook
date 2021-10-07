@@ -1,9 +1,9 @@
 import React, { useState, useCallback } from "react";
 
-const Child = React.memo(({ handleClick }) => {
+const Child = ({ handleClick }) => {
   console.log("render child");
   return <button onClick={handleClick}>Child</button>;
-});
+};
 
 export default function App() {
   console.log("render App");
