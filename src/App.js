@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 
 const Child = React.memo(({ count }) => {
-  console.log("render Child");
-  return <p>Child: {count}</p>;
+  let i = 0;
+  while (i < 1000000000) {
+    console.log("render child");
+    return <p>Child: {count}</p>;
+  }
 });
 
 export default function App() {
