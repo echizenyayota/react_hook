@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 
 export default function App() {
   const [count1, setCount1] = useState(0);
@@ -14,14 +14,16 @@ export default function App() {
     return count * 2;
   };
 
-  const doubleCount = double(count2);
+  // count2 を2倍にした値をメモ化する
+  // 第2引数にcount2を渡しているため、count2を更新した時のみ再計算される
+  const doubleCount = useMemo(() => double(count2), [count2]);
 
   return (
     <>
-      <h2>Increment Count1</h2>
+      <h2>Increment (fast)</h2>
       <p>Counter: {count1}</p>
       <button onClick={() => setCount1(count1 + 1)}>Increment count1</button>
-      <h2>Increment Count2</h2>
+      <h2>Increment (slow)</h2>
       <p>
         Counter: {count2}, {doubleCount}
       </p>
