@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 
 const Child = React.memo(({ handleClick }) => {
   console.log("render child");
@@ -9,9 +9,9 @@ export default function App() {
   console.log("render App");
 
   const [count, setCount] = useState(0);
-  const handleClick = () => {
+  const handleClick = useCallback(() => {
     console.log("click");
-  };
+  }, []);
   return (
     <>
       <p>Counter: {count}</p>
