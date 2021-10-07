@@ -1,50 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
-const LIMIT = 60;
-
-// カウントダウンするコンポーネント
-function Timer() {
-  // カウント
-  const [timeLeft, setTimeLeft] = useState(LIMIT);
-
-  // timeLeft をリセット
-  const reset = () => {
-    setTimeLeft(LIMIT);
-  };
-
-  // timeListを更新する
-  const tick = () => {
-    console.log("tick");
-    setTimeLeft((prevTime) => (prevTime === 0 ? LIMIT : prevTime - 1));
-  };
-
-  useEffect(() => {
-    console.log("create timer");
-    const timerId = setInterval(tick, 1000);
-
-    return () => {
-      console.log("cleanUp Timer");
-      clearInterval(timerId);
-    };
-  }, []);
-
-  return (
-    <div>
-      <p>time: {timeLeft} </p>
-      <button onClick={reset}>reset</button>
-    </div>
-  );
-}
-function App() {
-  // コンポーネントを読み込むかどうかのフラグ
-  const [visible, setVisible] = useState(true);
-
-  return (
-    <div>
-      <button onClick={() => setVisible(!visible)}>Toggle Timer</button>
-      {visible ? <Timer /> : ""}
-    </div>
-  );
+// App コンポーネントが再レンダーされるたびに再レンダーされる
+function Child({ count }) {
+  console.log("render child");
+  return <p>Child: {count} </p>;
 }
 
-export default App;
+export default function App() {
+  console.log("render App");
+  const [count1, setCount1] = useState(0);
+  const [count2, setCount2] = useState(0);
+
+  return (
+    <>
+      <button onClick={() => setCount1(count1 + 1)}>countUp App count</button>
+      <button onClick={() => setCount2(count2 + 1)}>countUp Child count</button>
+      <p>App: {count1}</p>
+      <Child count={count2} />
+    </>
+  );
+}
